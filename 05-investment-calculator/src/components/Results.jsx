@@ -1,6 +1,6 @@
 import { formatter } from '../util/investment';
 
-export default function Result({ annualData }) {
+export default function Results({ input }) {
   return (
     <table id="result" className="center">
       <thead>
