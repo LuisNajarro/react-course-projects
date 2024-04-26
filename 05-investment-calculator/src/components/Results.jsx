@@ -1,6 +1,8 @@
+import { calculateInvestmentResults } from '../util/investment.js';
 import { formatter } from '../util/investment';
 
 export default function Results({ input }) {
+  const annualData = calculateInvestmentResults(input);
   return (
     <table id="result" className="center">
       <thead>
