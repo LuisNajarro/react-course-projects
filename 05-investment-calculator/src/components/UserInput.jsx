@@ -51,39 +51,51 @@ export default function UserInput({ onUserInputChange }) {
   }
 
   return (
-    <div id="user-input">
+    <section id="user-input">
       <div className="input-group">
-        <label htmlFor="initial-investment">Initial Investment</label>
-        <input
-          type="number"
-          id="initial-investment"
-          value={initialInvestment}
-          onChange={handleChangeInitialInvestment}
-        />
-        <label htmlFor="annual-investment">Annual Investment</label>
-        <input
-          type="number"
-          id="annual-investment"
-          value={annualInvestment}
-          onChange={handleChangeAnnualInvestment}
-        />
+        <p>
+          <label htmlFor="initial-investment">Initial Investment</label>
+          <input
+            type="number"
+            required
+            id="initial-investment"
+            value={initialInvestment}
+            onChange={handleChangeInitialInvestment}
+          />
+        </p>
+        <p>
+          <label htmlFor="annual-investment">Annual Investment</label>
+          <input
+            type="number"
+            required
+            id="annual-investment"
+            value={annualInvestment}
+            onChange={handleChangeAnnualInvestment}
+          />
+        </p>
       </div>
       <div className="input-group">
-        <label htmlFor="expected-return">Expected Return</label>
-        <input
-          type="number"
-          id="expected-return"
-          value={expectedReturn}
-          onChange={handleChangeExpectedReturn}
-        />
-        <label htmlFor="duration">Duration</label>
-        <input
-          type="number"
-          id="duration"
-          value={duration}
-          onChange={handleChangeDuration}
-        />
+        <p>
+          <label htmlFor="expected-return">Expected Return</label>
+          <input
+            type="number"
+            required
+            id="expected-return"
+            value={expectedReturn}
+            onChange={handleChangeExpectedReturn}
+          />
+        </p>
+        <p>
+          <label htmlFor="duration">Duration</label>
+          <input
+            type="number"
+            required
+            id="duration"
+            value={duration}
+            onChange={handleChangeDuration}
+          />
+        </p>
       </div>
-    </div>
+    </section>
   );
 }
