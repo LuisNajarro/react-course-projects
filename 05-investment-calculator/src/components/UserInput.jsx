@@ -1,53 +1,20 @@
 import { useState } from 'react';
 
 export default function UserInput({ onUserInputChange }) {
-  const [initialInvestment, setInitialInvestment] = useState(0);
-  const [annualInvestment, setAnnualInvestment] = useState(0);
-  const [expectedReturn, setExpectedReturn] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [userInput, setUserInput] = useState({
+    initialInvestment: 10000,
+    annualInvestment: 1200,
+    expectedReturn: 6,
+    duration: 10,
+  });
 
-  function handleChangeInitialInvestment(event) {
-    onUserInputChange({
-      initialInvestment: Number(event.target.value),
-      annualInvestment: Number(annualInvestment),
-      expectedReturn: Number(expectedReturn),
-      duration: Number(duration),
+  function handleChange(inputIdentifier, newValue) {
+    setUserInput((prevUserInput) => {
+      return {
+        ...prevUserInput,
+        [inputIdentifier]: newValue,
+      };
     });
-    setInitialInvestment(event.target.value);
-    console.log('Initial Investment: ', event.target.value);
-  }
-
-  function handleChangeAnnualInvestment(event) {
-    onUserInputChange({
-      initialInvestment: Number(initialInvestment),
-      annualInvestment: Number(event.target.value),
-      expectedReturn: Number(expectedReturn),
-      duration: Number(duration),
-    });
-    setAnnualInvestment(event.target.value);
-    console.log('Annual Investment: ', event.target.value);
-  }
-
-  function handleChangeExpectedReturn(event) {
-    onUserInputChange({
-      initialInvestment: Number(initialInvestment),
-      annualInvestment: Number(annualInvestment),
-      expectedReturn: Number(event.target.value),
-      duration: Number(duration),
-    });
-    setExpectedReturn(event.target.value);
-    console.log('Expected Return: ', event.target.value);
-  }
-
-  function handleChangeDuration(event) {
-    onUserInputChange({
-      initialInvestment: Number(initialInvestment),
-      annualInvestment: Number(annualInvestment),
-      expectedReturn: Number(expectedReturn),
-      duration: Number(duration),
-    });
-    setDuration(event.target.value);
-    console.log('Duration: ', event.target.value);
   }
 
   return (
@@ -59,8 +26,10 @@ export default function UserInput({ onUserInputChange }) {
             type="number"
             required
             id="initial-investment"
-            value={initialInvestment}
-            onChange={handleChangeInitialInvestment}
+            value={userInput.initialInvestment}
+            onChange={(event) =>
+              handleChange('initialInvestment', event.target.value)
+            }
           />
         </p>
         <p>
@@ -69,8 +38,10 @@ export default function UserInput({ onUserInputChange }) {
             type="number"
             required
             id="annual-investment"
-            value={annualInvestment}
-            onChange={handleChangeAnnualInvestment}
+            value={userInput.annualInvestment}
+            onChange={(event) =>
+              handleChange('annualInvestment', event.target.value)
+            }
           />
         </p>
       </div>
@@ -81,8 +52,10 @@ export default function UserInput({ onUserInputChange }) {
             type="number"
             required
             id="expected-return"
-            value={expectedReturn}
-            onChange={handleChangeExpectedReturn}
+            value={userInput.expectedReturn}
+            onChange={(event) =>
+              handleChange('expectedReturn', event.target.value)
+            }
           />
         </p>
         <p>
@@ -91,8 +64,8 @@ export default function UserInput({ onUserInputChange }) {
             type="number"
             required
             id="duration"
-            value={duration}
-            onChange={handleChangeDuration}
+            value={userInput.duration}
+            onChange={(event) => handleChange('duration', event.target.value)}
           />
         </p>
       </div>
