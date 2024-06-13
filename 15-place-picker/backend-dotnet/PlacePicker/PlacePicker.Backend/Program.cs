@@ -60,9 +60,9 @@ app.MapGet("/user-places", async () =>
     .WithName("get-user-places")
     .WithOpenApi();
 
-app.MapPut("/user-places", async ([FromBody] List<Place> places) =>
+app.MapPut("/user-places", async ([FromBody] UserPlacesRequest request) =>
     {
-        var placesContent = JsonSerializer.Serialize(places);
+        var placesContent = JsonSerializer.Serialize(request.Places);
         
         await File.WriteAllTextAsync("./data/user-places.json", placesContent);
 
