@@ -13,9 +13,9 @@ public class Meal
     [JsonPropertyName("price")]
     public string? Price { get; set; }
     
-    [JsonPropertyName("")]
+    [JsonPropertyName("description")]
     public string? Description { get; set; }
     
-    [JsonPropertyName("")]
+    [JsonPropertyName("image")]
     public string? Image { get; set; }
 }
