@@ -49,8 +49,10 @@ app.MapGet("/meals", async () =>
     .WithName("get-meals")
     .WithOpenApi();
 
-app.MapPost("/orders", async Task<Results<Created<OrderResponse>, BadRequest<OrderResponse>>> ([FromBody] Order? order) =>
+app.MapPost("/orders", async Task<Results<Created<OrderResponse>, BadRequest<OrderResponse>>> ([FromBody] OrderRequest? request) =>
     {
+        var order = request?.Order;
+        
         if (order?.Items is null || order.Items.Count == 0)
         {
             return TypedResults.BadRequest(new OrderResponse { Message = "Missing data." });
