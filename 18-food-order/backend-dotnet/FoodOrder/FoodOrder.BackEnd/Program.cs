@@ -40,6 +40,17 @@ app.UseStaticFiles();
 
 app.UseCors();
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == HttpMethods.Options)
+    {
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        return;
+    }
+
+    await next.Invoke();
+});
+
 app.MapGet("/meals", async () =>
     {
         var mealsJson = await File.ReadAllTextAsync("./data/available-meals.json");
@@ -85,5 +96,15 @@ app.MapPost("/orders", async Task<Results<Created<OrderResponse>, BadRequest<Ord
     })
     .WithName("post-orders")
     .WithOpenApi();
+
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == StatusCodes.Status404NotFound)
+    {
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { Message = "Not found" });
+    }
+});
 
 await app.RunAsync();
