@@ -7,6 +7,7 @@ import {
 
 import HomePage from './pages/Home.jsx';
 import ProductsPage from './pages/Products.jsx';
+import RootLayout from './pages/Root.jsx';
 
 // const routeDefinitions = createRoutesFromElements(
 //   <Route>
@@ -16,8 +17,14 @@ import ProductsPage from './pages/Products.jsx';
 // );
 
 const router = createBrowserRouter([
-  { path: '/', element: <HomePage /> },
-  { path: '/products', element: <ProductsPage /> },
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/products', element: <ProductsPage /> },
+    ],
+  },
 ]);
 
 // const router = createBrowserRouter(routeDefinitions);
