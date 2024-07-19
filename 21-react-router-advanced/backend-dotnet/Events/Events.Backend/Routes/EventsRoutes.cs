@@ -14,6 +14,7 @@ public static class EventsRoutes
         eventsRoutes.MapGet("/", async () =>
         {
             var events = await EventsRepository.GetAll();
+            await Task.Delay(TimeSpan.FromSeconds(2));
             return TypedResults.Ok(new EventsResponse { Events = events });
         })
         .WithName("GetAllEvents")
