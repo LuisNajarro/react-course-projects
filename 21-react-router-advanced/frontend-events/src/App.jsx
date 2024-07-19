@@ -33,6 +33,7 @@ import EditEventPage from './pages/EditEvent.jsx';
 import ErrorPage from './pages/Error.jsx';
 import EventDetailPage, {
   loader as eventDetailLoader,
+  action as deleteEventAction,
 } from './pages/EventDetail.jsx';
 import EventsPage, { loader as eventsLoader } from './pages/Events.jsx';
 import EventsRootLayout from './pages/EventsRoot.jsx';
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <EventDetailPage />,
+                action: deleteEventAction,
               },
               { path: 'edit', element: <EditEventPage /> },
             ],
