@@ -48,7 +48,7 @@ public static class EventsRoutes
 
             if (!Validation.IsValidImageUrl(data.Image))
             {
-                errors.Image = "Invalid image";
+                errors.Image = "Invalid image.";
             }
             
             if (errors.Title is not null || errors.Description is not null || errors.Date is not null || errors.Image is not null)
