@@ -9,7 +9,7 @@ public static class AuthRoutes
 {
     public static void MapAuthRoutes(this IEndpointRouteBuilder routes)
     {
-        routes.MapPost("/signup", async (User user) =>
+        routes.MapPost("/signup", async Task<Results<Created<UserResponse>, UnprocessableEntity<UserErrorResponse>>> (User user) =>
         {
             var errors = new UserErrors();
 
@@ -22,7 +22,10 @@ public static class AuthRoutes
                 try
                 {
                     var existingUser = await UsersRepository.Get(user.Email!);
-                    errors.Email = "Email exists already.";
+                    if (existingUser is not null)
+                    {
+                        errors.Email = "Email exists already.";
+                    }
                 }
                 catch (Exception e) { }
             }
@@ -30,6 +33,15 @@ public static class AuthRoutes
             if (!Validation.IsValidText(user.Password, 6))
             {
                 errors.Password = "Invalid password. Must be at least 6 characters long.";
+            }
+
+            if (errors.Email is not null || errors.Password is not null)
+            {
+                return TypedResults.UnprocessableEntity(new UserErrorResponse
+                {
+                    Message = "User signup failed due to validation errors.",
+                    Errors = errors
+                });
             }
 
             var createdUser = await UsersRepository.Add(user);

@@ -4,7 +4,7 @@ public static class Validation
 {
     public static bool IsValidText(string? value, int minLength = 1)
     {
-        return value is not null && value.Trim().Length > minLength;
+        return value is not null && value.Trim().Length >= minLength;
     }
     
     public static bool IsValidDate(string? value)

@@ -15,7 +15,9 @@ import { action as manipulateEventAction } from './components/EventForm.jsx';
 import NewsletterPage, {
   action as newsletterAction,
 } from './pages/Newsletter.jsx';
-import AuthenticationPage from './pages/Authentication.jsx';
+import AuthenticationPage, {
+  action as authAction,
+} from './pages/Authentication.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +62,7 @@ const router = createBrowserRouter([
       {
         path: 'auth',
         element: <AuthenticationPage />,
+        action: authAction,
       },
       {
         path: 'newsletter',
