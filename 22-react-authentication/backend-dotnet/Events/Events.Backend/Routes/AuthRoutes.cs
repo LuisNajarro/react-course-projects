@@ -51,8 +51,11 @@ public static class AuthRoutes
                 new UserResponse { Message = "User created.", User = createdUser, Token = authToken });
         });
         
-        routes.MapPost("/login", async Task<Results<Ok<UserResponse>, UnauthorizedHttpResult, UnprocessableEntity<UserErrorResponse>>> (string email, string password) =>
+        routes.MapPost("/login", async Task<Results<Ok<UserResponse>, UnauthorizedHttpResult, UnprocessableEntity<UserErrorResponse>>> (User data) =>
         {
+            var email = data.Email;
+            var password = data.Password;
+            
             User user;
             try
             {

@@ -9,6 +9,7 @@ import {
 
 import EventItem from '../components/EventItem.jsx';
 import EventsList from '../components/EventsList.jsx';
+import { getAuthToken } from '../util/auth.js';
 
 function EventDetailPage() {
   const { event, events } = useRouteLoaderData('event-detail');
@@ -72,8 +73,12 @@ export async function loader({ request, params }) {
 export async function action({ params, request }) {
   const eventId = params.eventId;
 
+  const token = getAuthToken();
   const response = await fetch('https://localhost:7111/events/' + eventId, {
     method: request.method,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
   });
 
   if (!response.ok) {
