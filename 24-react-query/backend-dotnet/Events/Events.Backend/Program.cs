@@ -96,8 +96,9 @@ app.MapGet("/events/{id}", async Task<Results<Ok<EventResponse>, NotFound<EventE
 });
 
 app.MapPost("/events",
-    async Task<Results<Ok<EventResponse>, BadRequest<EventErrorResponse>>> ([FromBody] Event? @event) =>
+    async Task<Results<Ok<EventResponse>, BadRequest<EventErrorResponse>>> ([FromBody] EventRequest? request) =>
     {
+        var @event = request?.Event;
         if (@event is null)
         {
             return TypedResults.BadRequest(new EventErrorResponse { Message = "Event is required" });
