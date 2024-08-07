@@ -2,50 +2,67 @@ import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
 import Header from '../Header.jsx';
-import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
-import { fetchEvent, deleteEvent } from '../../util/http.js';
+import { fetchEvent, deleteEvent, queryClient } from '../../util/http.js';
 
 export default function EventDetails() {
-  const { id } = useParams();
+  const params = useParams();
   const navigate = useNavigate();
+
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['event', id],
-    queryFn: ({ signal }) => fetchEvent({ signal, id }),
+    queryKey: ['events', params.id],
+    queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
   });
+
   const { mutate } = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['events'] });
       navigate('/events');
     },
   });
 
-  function handleDelete(id) {
-    mutate({ id });
+  function handleDelete() {
+    mutate({ id: params.id });
   }
 
   let content;
 
   if (isPending) {
-    content = <LoadingIndicator />;
+    content = (
+      <div id="event-details-content" className="center">
+        <p>Fetching event data...</p>
+      </div>
+    );
   }
 
   if (isError) {
     content = (
-      <ErrorBlock
-        title="An error occurred"
-        message={error.info?.message || 'Failed to fetch event.'}
-      />
+      <div id="event-details-content" className="center">
+        <ErrorBlock
+          title="Failed to load event"
+          message={
+            error.info?.message ||
+            'Failed to fetch event data, please try again later.'
+          }
+        />
+      </div>
     );
   }
 
   if (data) {
+    const formattedDate = new Date(data.date).toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+
     content = (
-      <article id="event-details">
+      <>
         <header>
           <h1>{data.title}</h1>
           <nav>
-            <button onClick={() => handleDelete(data.id)}>Delete</button>
+            <button onClick={handleDelete}>Delete</button>
             <Link to="edit">Edit</Link>
           </nav>
         </header>
@@ -55,13 +72,13 @@ export default function EventDetails() {
             <div>
               <p id="event-details-location">{data.location}</p>
               <time dateTime={`${data.date}T${data.time}`}>
-                {data.date} @ {data.time}
+                {formattedDate} @ {data.time}
               </time>
             </div>
             <p id="event-details-description">{data.description}</p>
           </div>
         </div>
-      </article>
+      </>
     );
   }
 
@@ -73,7 +90,7 @@ export default function EventDetails() {
           View all Events
         </Link>
       </Header>
-      {content}
+      <article id="event-details">{content}</article>
     </>
   );
 }
