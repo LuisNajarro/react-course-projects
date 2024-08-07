@@ -52,7 +52,7 @@ app.MapGet("/events", async (int? max, string? search) =>
 
     if (max is not null)
     {
-        events = events?.Take(max.Value).ToList();
+        events = events?.TakeLast(max.Value).ToList();
     }
 
     return TypedResults.Ok(new EventsResponse
