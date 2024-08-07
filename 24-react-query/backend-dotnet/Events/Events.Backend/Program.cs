@@ -137,8 +137,9 @@ app.MapPost("/events",
 
 app.MapPut("/events/{id}",
     async Task<Results<Ok<EventResponse>, BadRequest<EventErrorResponse>, NotFound<EventErrorResponse>>> (string id,
-        Event? @event) =>
+        [FromBody] EventRequest? request) =>
     {
+        var @event = request?.Event;
         if (@event is null)
         {
             return TypedResults.BadRequest(new EventErrorResponse { Message = "Event is required" });
