@@ -1,25 +1,17 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App.jsx';
 import './index.css';
-import productReducer from './store/reducers/products.js';
-
-const rootReducer = combineReducers({
-  shop: productReducer,
-});
-
-const store = createStore(rootReducer);
+import ProductsProvider from './context/products-context.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store}>
+    <ProductsProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>
+    </ProductsProvider>
   </StrictMode>
 );
