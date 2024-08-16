@@ -4,14 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App.jsx';
 import './index.css';
-import ProductsProvider from './context/products-context.jsx';
+import configureProductsStore from './hooks-store/products-store.js';
+
+configureProductsStore();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ProductsProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ProductsProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>
 );
