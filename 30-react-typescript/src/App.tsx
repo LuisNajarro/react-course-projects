@@ -1,31 +1,13 @@
-import { useState } from 'react';
-
 import NewTodo from './components/NewTodo.tsx';
 import Todos from './components/Todos.tsx';
-import Todo from './models/todo.ts';
+import TodosContextProvider from './store/todo-context.tsx';
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const addTodoHandler = (text: string) => {
-    const newTodo = new Todo(text);
-
-    setTodos((prevTodos) => {
-      return prevTodos.concat(newTodo);
-    });
-  };
-
-  const removeTodoHandler = (todoId: string) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => todo.id !== todoId);
-    });
-  };
-
   return (
-    <div>
-      <NewTodo onAddTodo={addTodoHandler} />
-      <Todos items={todos} onRemoveTodo={removeTodoHandler} />
-    </div>
+    <TodosContextProvider>
+      <NewTodo />
+      <Todos />
+    </TodosContextProvider>
   );
 }
 
